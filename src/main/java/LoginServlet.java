@@ -6,16 +6,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.regex.Pattern;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-
+    public boolean isValid(String name, String pwd) {
+        boolean nameStatus = Pattern.compile("[A-Z]{1}[a-z]{2,15}").matcher(name).matches();
+        if (nameStatus == true && pwd.equals("pwd")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name");
         String pwd = request.getParameter("pwd");
-        if (name.equals("name") && pwd.equals("pwd")) {
+        if (isValid(name, pwd)) {
             request.setAttribute("name", name);
             request.getRequestDispatcher("LoginSuccess.jsp").forward(request, response);
 
