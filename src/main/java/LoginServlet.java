@@ -12,7 +12,9 @@ import java.util.regex.Pattern;
 public class LoginServlet extends HttpServlet {
     public boolean isValid(String name, String pwd) {
         boolean nameStatus = Pattern.compile("[A-Z]{1}[a-z]{2,15}").matcher(name).matches();
-        if (nameStatus == true && pwd.equals("pwd")) {
+
+        boolean pwdStatus = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&*]).{8,}$").matcher(pwd).matches();
+        if (nameStatus == true && pwdStatus == true) {
             return true;
         } else {
             return false;
